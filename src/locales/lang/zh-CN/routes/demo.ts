@@ -5,7 +5,7 @@ export default {
     event: '活动管理',
     order: '订单管理',
     script: '剧本管理',
-    image: '图片管理',
+    pictures: '图片管理',
     room: '房间管理',
     comment: '评论管理',
   },

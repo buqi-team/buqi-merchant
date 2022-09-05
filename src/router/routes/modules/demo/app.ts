@@ -38,22 +38,22 @@ const dashboard: AppRouteModule = {
     //     title: t('routes.demo.appAdmin.order'),
     //   },
     // },
-    // {
-    //   path: 'script',
-    //   name: 'ScriptListPage',
-    //   component: () => import('/@/views/script/ScriptList.vue'),
-    //   meta: {
-    //     title: t('routes.demo.appAdmin.script'),
-    //   },
-    // },
-    // {
-    //   path: 'image',
-    //   name: 'imageListPage',
-    //   component: () => import('/@/views/game_shop/imageList.vue'),
-    //   meta: {
-    //     title: t('routes.demo.appAdmin.image'),
-    //   },
-    // },
+    {
+      path: 'script',
+      name: 'scriptListPage',
+      component: () => import('/@/views/script/scriptList.vue'),
+      meta: {
+        title: t('routes.demo.appAdmin.script'),
+      },
+    },
+    {
+      path: 'pictures',
+      name: 'picturesListPage',
+      component: () => import('/@/views/pictures/picturesList.vue'),
+      meta: {
+        title: t('routes.demo.appAdmin.pictures'),
+      },
+    },
     {
       path: 'room',
       name: 'roomListPage',

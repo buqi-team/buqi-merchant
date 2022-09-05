@@ -1,8 +1,8 @@
 <template>
-  <PageWrapper title="活动管理" contentBackground>
-    <BasicTable title="活动列表" @register="registerTable">
+  <PageWrapper title="剧本管理" contentBackground>
+    <BasicTable title="剧本列表" @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" @click="handleAdd">活动添加</a-button>
+        <a-button type="primary" @click="handleAdd">剧本添加</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -32,21 +32,22 @@
         />
       </template>
     </BasicTable>
-    <!-- <EventModal @register="registerModalView" />
-    <EventAdd @register="registerModalAdd" @success="handleSuccess"> </EventAdd>
-    <EventEdit @register="registerModalEdit" @success="handleSuccess"></EventEdit> -->
+    <ScriptModal @register="registerModalView" />
+    <!-- <ScriptAdd @register="registerModalAdd" @success="handleSuccess"> </ScriptAdd>
+    <ScriptEdit @register="registerModalEdit" @success="handleSuccess"></ScriptEdit> -->
   </PageWrapper>
 </template>
 <script lang="ts" setup>
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { appAdmin } from '/@/api/services/AppAdmin';
+  //   import { PlayerModel } from '/@/app-shared/services/AppAdmin/Player';
   import { columns, searchFormSchema } from './data';
   import { useModal } from '/@/components/Modal';
-  // import EventAdd from './EventAdd.vue';
-  // import EventModal from './EventModal.vue';
-  // import EventEdit from './EventEdit.vue';
-  import { EventModel } from '/@/api/services/AppAdmin/Event';
+  import ScriptModal from './scriptModal.vue';
+  import { ScriptModel } from '/@/api/services/AppAdmin/Script';
+  import ScriptAdd from './scriptAdd.vue';
+  import ScriptEdit from './scriptEdit.vue';
   import { computed, ref, reactive, onMounted, watch } from 'vue';
 
   const [registerModalView, { openModal: openModal1 }] = useModal();
@@ -55,81 +56,83 @@
   //   const searchInfo = reactive<Recordable>({});
 
   const listConditionRef = ref({
-    // title: null,
-    status: [0, 1, 2, 3, 4, 5],
-    // preloads: ['owner', 'members'],
+    // name: null,
+    // status: null,
     // total: 0,
     page: 1,
     pageSize: 10,
+    keyword: '',
+    // preloads: ['styles'],
   });
-  const data = reactive<EventModel[]>([]);
+  const data = reactive<ScriptModel[]>([]);
 
-  async function reloadListData(e) {
+  const reloadListData = async (e) => {
     var listCond = listConditionRef.value;
-    listCond.page = e.page;
-    listCond.pageSize = e.pageSize;
+    // listCond.page = e.page;
+    // listCond.pageSize = e.pageSize;
     data.length = 0;
-    // const res = await appAdmin.event.list(listCond);
-    // console.log('活动数据', res);
+    const res = await appAdmin.script.list(listCond);
+    console.log(res);
 
-    // for (let i = 0; i < res.items.length; i++) {
-    //   data.push({
-    //     id: res.items[i].id,
-    //     owner_id: res.items[i].owner_id,
-    //     title: res.items[i].title,
-    //     content: res.items[i].content,
-    //     group_avatar_url: res.items[i].group_avatar_url,
-    //     num_member_total: res.items[i].num_member_total,
-    //     num_member_joined: res.items[i].num_member_joined,
-    //     status: res.items[i].status,
-    //     group_name: res.items[i].group_name,
-    //     product_id: res.items[i].product_id,
-    //     shop_id: res.items[i].shop_id,
-    //     script_id: res.items[i].script_id,
-    //     script_name: res.items[i].script.name,
-    //     created_at: res.items[i].created_at,
-    //     updated_at: res.items[i].updated_at,
-    //   });
-    // }
-    // console.log(data);
+    for (let i = 0; i < res.items.length; i++) {
+      data.push({
+        id: res.items[i].id,
+        name: res.items[i].name,
+        numberMax: res.items[i].number_max,
+        numberMin: res.items[i].number_min,
+        minuteDuration: res.items[i].minute_duration,
+        coverUrl: res.items[i].cover_url,
+        authorName: res.items[i].author_name,
+        status: res.items[i].status,
+        publishDate: res.items[i].publish_date,
+        description: res.items[i].description,
+        detail: res.items[i].detail,
+        styleIds: res.items[i].styles_hash,
+        styles: res.items[i].styles,
+        createdAt: res.items[i].createdAt,
+        updatedAt: res.items[i].updatedAt,
+      });
+    }
+    console.log(res);
+    // setPagination({
+    //     current:getPaginationRef().current;
+    // })
 
-    // listConditionRef.value = {
-    //   // title: listCond.title,
-    //   status: listCond.status,
-    //   // total: listCond.total,
-    //   page: res.page,
-    //   pageSize: res.pageSize,
-    //   // preloads: listCond.preloads,
-    // };
+    listConditionRef.value = {
+      // name: listCond.name,
+      // status: listCond.status,
+      // total: res.total,
+      keyword: listCond.keyword,
+      page: res.page,
+      pageSize: res.pageSize,
+      // preloads: listCond.preloads,
+    };
     // console.log(res);
-    // return res;
-  }
+    return res;
+  };
 
   function handleView(record: Recordable) {
     openModal1(true, {
-      isUpdate: false,
-      event: record,
+      isUpdate: true,
+      record,
     });
     // // go('/system/account_detail/' + record.id);
   }
   function handleEdit(record: Recordable) {
-    console.log(record);
-
     openModal2(true, {
       record,
       isUpdate: true,
     });
   }
 
-  function handleAdd(record: Recordable) {
-    console.log(record);
+  function handleAdd() {
     openModal3(true, {
       isUpdate: true,
     });
   }
 
   async function handleDelete(record: Recordable) {
-    await appAdmin.event.delete(record.id);
+    await appAdmin.script.delete(record.id);
     reload();
   }
 
@@ -151,11 +154,7 @@
       autoSubmitOnEnter: true,
     },
     handleSearchInfoFn(info) {
-      if (info.status) {
-        listConditionRef.value.status = [...info.status];
-      } else {
-        listConditionRef.value.status = [0, 1, 2, 3, 4, 5];
-      }
+      listConditionRef.value.keyword = info.name;
       reloadListData;
     },
     actionColumn: {
@@ -166,7 +165,6 @@
   });
 
   function handleSuccess({ isUpdate, values }) {
-    reload();
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
       // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中

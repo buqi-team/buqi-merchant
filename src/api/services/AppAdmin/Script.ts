@@ -57,7 +57,7 @@ export interface ScriptCreateReq {
 }
 export class ScriptAPI {
   // http: AxiosInstance
-  resPath = '/app/admin/scripts';
+  resPath = '/scripts';
   // constructor(axIns) {
   //     this.http = axIns
   // }
@@ -69,10 +69,7 @@ export class ScriptAPI {
   //   return defHttp.get<PagedResp<ScriptModel>>({ url: this.resPath, params: req });
   // }
   list(req: ScriptListReq) {
-    return defHttp.get(
-      { url: '/app/admin/script/list', params: req },
-      { apiUrl: 'https://buqi.4536251.cn:9991/api/v1' },
-    );
+    return defHttp.get({ url: '/script_list', params: req });
   }
   update(req: ScriptUpdateReq) {
     return defHttp.put({ url: this.resPath + '/' + req.id, params: req });

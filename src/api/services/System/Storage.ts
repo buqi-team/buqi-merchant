@@ -62,13 +62,16 @@ export class StorageAPI {
   putImage(req: PutImageReq) {
     const formData = new FormData();
     formData.append('file', req.file);
-    return defHttp.put<UploadModel>({
-      url: Api.STORAGE_LIST + '/image',
-      params: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    return defHttp.put<UploadModel>(
+      {
+        url: Api.STORAGE_LIST + '/image',
+        params: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       },
-    });
+      { apiUrl: 'https://buqi.4536251.cn:9990/api/v1' },
+    );
   }
   uploadImage(params: PutImageReq) {
     const formData = new FormData();

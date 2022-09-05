@@ -1,4 +1,4 @@
-import UiHelper from '/@/app-shared/services/util/UiHelper';
+import UiHelper from '/@/api/services/util/UiHelper';
 import { Ref, ref } from 'vue';
 import { ScriptStyleListReq, appAdmin } from '.';
 
