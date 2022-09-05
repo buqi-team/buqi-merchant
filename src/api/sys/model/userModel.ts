@@ -17,7 +17,11 @@ export interface RoleInfo {
 export interface LoginResultModel {
   userId: string | number;
   token: string;
-  role: RoleInfo;
+  // role: RoleInfo;
+  username: string;
+  screen_name: string;
+  avatar_url: string;
+  expiredAt: number;
 }
 
 /**

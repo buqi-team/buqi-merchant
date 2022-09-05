@@ -6,7 +6,7 @@ import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
-import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
+import { GetUserInfoModel, LoginParams, LoginResultModel } from '/@/api/sys/model/userModel';
 import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
@@ -65,7 +65,7 @@ export const useUserStore = defineStore({
       this.roleList = roleList;
       setAuthCache(ROLES_KEY, roleList);
     },
-    setUserInfo(info: UserInfo | null) {
+    setUserInfo(info: any) {
       this.userInfo = info;
       this.lastUpdateTime = new Date().getTime();
       setAuthCache(USER_INFO_KEY, info);
@@ -87,23 +87,34 @@ export const useUserStore = defineStore({
         goHome?: boolean;
         mode?: ErrorMessageMode;
       },
-    ): Promise<GetUserInfoModel | null> {
+    ): Promise<LoginResultModel | null> {
       try {
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
-        const { token } = data;
+        const token = data.token;
+        this.setToken(token);
+        // const { token } = data;
 
         // save token
-        this.setToken(token);
-        return this.afterLoginAction(goHome);
+        const userInfo = {
+          token: data.token,
+          userId: data.uid,
+          username: data.username,
+          screen_name: data.screen_name,
+          avatar_url: data.avatar_url,
+          expiredAt: data.expiredAt,
+        };
+        return this.afterLoginAction(goHome, userInfo);
       } catch (error) {
         return Promise.reject(error);
       }
     },
-    async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
+    async afterLoginAction(goHome?: boolean, userInfo?: any): Promise<LoginResultModel | null> {
       if (!this.getToken) return null;
       // get user info
-      const userInfo = await this.getUserInfoAction();
+      this.setUserInfo(userInfo);
+      this.getUserInfoAction();
+      // const userInfo = await this.getUserInfoAction();
 
       const sessionTimeout = this.sessionTimeout;
       if (sessionTimeout) {
@@ -118,22 +129,22 @@ export const useUserStore = defineStore({
           router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw);
           permissionStore.setDynamicAddedRoute(true);
         }
-        goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
+        goHome && (await router.replace(PageEnum.BASE_HOME));
       }
       return userInfo;
     },
-    async getUserInfoAction(): Promise<UserInfo | null> {
+    getUserInfoAction() {
       if (!this.getToken) return null;
-      const userInfo = await getUserInfo();
-      const { roles = [] } = userInfo;
-      if (isArray(roles)) {
-        const roleList = roles.map((item) => item.value) as RoleEnum[];
-        this.setRoleList(roleList);
-      } else {
-        userInfo.roles = [];
-        this.setRoleList([]);
-      }
-      this.setUserInfo(userInfo);
+      const userInfo = getAuthCache<UserInfo>(USER_INFO_KEY);
+      // const { roles = [] } = userInfo;
+      // if (isArray(roles)) {
+      //   const roleList = roles.map((item) => item.value) as RoleEnum[];
+      //   this.setRoleList(roleList);
+      // } else {
+      //   userInfo.roles = [];
+      //   this.setRoleList([]);
+      // }
+      // this.setUserInfo(userInfo);
       return userInfo;
     },
     /**

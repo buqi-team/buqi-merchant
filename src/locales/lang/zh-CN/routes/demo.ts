@@ -1,4 +1,14 @@
 export default {
+  appAdmin: {
+    app: 'App管理',
+    gameShop: '店铺信息',
+    event: '活动管理',
+    order: '订单管理',
+    script: '剧本管理',
+    image: '图片管理',
+    room: '房间管理',
+    comment: '评论管理',
+  },
   charts: {
     baiduMap: '百度地图',
     aMap: '高德地图',
