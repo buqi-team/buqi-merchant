@@ -39,7 +39,7 @@ export interface OrderRefundReq {
 }
 export class OrderAPI {
   //     http: AxiosInstance
-  resPath = '/app/admin/order';
+  resPath = '/order';
   //     constructor(axIns) {
   //         this.http = axIns
   //     }
@@ -48,16 +48,10 @@ export class OrderAPI {
   //     return defHttp.get<PlayerModel>({ url: this.resPath + '/' + id, params: config });
   //   }
   list(req: OrderListReq) {
-    return defHttp.get<PagedResp<OrderModel>>(
-      { url: this.resPath, params: req },
-      { apiUrl: 'https://buqi.4536251.cn:9991/api/v1' },
-    );
+    return defHttp.get<PagedResp<OrderModel>>({ url: this.resPath, params: req });
   }
   refund(req: OrderRefundReq) {
-    return defHttp.post(
-      { url: this.resPath + '/refund', params: req },
-      { apiUrl: 'https://buqi.4536251.cn:9991/api/v1' },
-    );
+    return defHttp.post({ url: this.resPath + '/refund', params: req });
   }
   //   update(req: PlayerUpdateReq) {
   //     return defHttp.put({ url: this.resPath + '/' + req.id, params: req });

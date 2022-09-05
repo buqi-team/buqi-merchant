@@ -6,7 +6,7 @@ const dashboard: AppRouteModule = {
   path: '/app',
   name: 'App',
   component: LAYOUT,
-  // redirect: '/app/gameShop',
+  redirect: '/app/room',
 
   meta: {
     icon: 'ion:grid-outline',
@@ -22,22 +22,22 @@ const dashboard: AppRouteModule = {
     //     title: t('routes.demo.appAdmin.gameShop'),
     //   },
     // },
-    // {
-    //   path: 'event',
-    //   name: 'EventListPage',
-    //   component: () => import('/@/views/event/EventList.vue'),
-    //   meta: {
-    //     title: t('routes.demo.appAdmin.event'),
-    //   },
-    // },
-    // {
-    //   path: 'order',
-    //   name: 'orderPage',
-    //   component: () => import('/@/views/order/OrderList.vue'),
-    //   meta: {
-    //     title: t('routes.demo.appAdmin.order'),
-    //   },
-    // },
+    {
+      path: 'event',
+      name: 'eventListPage',
+      component: () => import('/@/views/event/eventList.vue'),
+      meta: {
+        title: t('routes.demo.appAdmin.event'),
+      },
+    },
+    {
+      path: 'order',
+      name: 'orderPage',
+      component: () => import('/@/views/order/orderList.vue'),
+      meta: {
+        title: t('routes.demo.appAdmin.order'),
+      },
+    },
     {
       path: 'script',
       name: 'scriptListPage',

@@ -58,7 +58,7 @@ export interface EventCreateReq {
 
 export class EventAPI {
   // http: AxiosInstance
-  resPath = '/app/admin/events';
+  resPath = '/events';
   // constructor(axIns) {
   //     this.http = axIns
   // }
@@ -67,10 +67,7 @@ export class EventAPI {
     return defHttp.get<EventModel>({ url: this.resPath + '/' + id, params: config });
   }
   list(req: EventListReq) {
-    return defHttp.get<PagedResp<EventModel>>(
-      { url: this.resPath, params: req },
-      { apiUrl: 'https://buqi.4536251.cn:9991/api/v1' },
-    );
+    return defHttp.get<PagedResp<EventModel>>({ url: this.resPath, params: req });
   }
   update(req: EventUpdateReq) {
     return defHttp.put({ url: this.resPath + '/' + req.id, params: req });
