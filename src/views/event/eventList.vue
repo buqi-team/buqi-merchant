@@ -56,7 +56,7 @@
 
   const listConditionRef = ref({
     // title: null,
-    status: [0, 1, 2, 3, 4, 5],
+    // status: [0, 1, 2, 3, 4, 5],
     // preloads: ['owner', 'members'],
     // total: 0,
     page: 1,
@@ -95,7 +95,7 @@
 
     listConditionRef.value = {
       // title: listCond.title,
-      status: listCond.status,
+      // status: listCond.status,
       // total: listCond.total,
       page: res.page,
       pageSize: res.pageSize,

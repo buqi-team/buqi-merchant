@@ -39,7 +39,7 @@ export interface OrderRefundReq {
 }
 export class OrderAPI {
   //     http: AxiosInstance
-  resPath = '/order';
+  resPath = '/orders';
   //     constructor(axIns) {
   //         this.http = axIns
   //     }

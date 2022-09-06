@@ -30,34 +30,17 @@ export interface ScriptListReq {
 }
 export interface ScriptUpdateReq {
   id: string;
-  name: string;
-  numberMax: number;
-  numberMin: number;
-  minuteDuration: number;
-  coverUrl: string;
-  authorName: string;
-  publishDate: number;
-  description: string;
-  detail: string;
-  status: number;
-  styleIds: string[];
+  price: number;
+  originalPrice: number;
 }
 export interface ScriptCreateReq {
-  name: string;
-  numberMax: number;
-  numberMin: number;
-  minuteDuration: number;
-  coverUrl: string;
-  authorName: string;
-  publishDate: number;
-  description: string;
-  detail: string;
-  status: number;
-  styleIds: string[];
+  scriptId: string;
+  price: number;
+  originalPrice: number;
 }
 export class ScriptAPI {
   // http: AxiosInstance
-  resPath = '/scripts';
+  resPath = '/script';
   // constructor(axIns) {
   //     this.http = axIns
   // }
@@ -74,10 +57,10 @@ export class ScriptAPI {
   update(req: ScriptUpdateReq) {
     return defHttp.put({ url: this.resPath + '/' + req.id, params: req });
   }
-  delete(id: string) {
-    return defHttp.delete({ url: this.resPath + `/${id}` });
+  delete(req: string[]) {
+    return defHttp.delete({ url: this.resPath, params: req });
   }
-  create(req: ScriptCreateReq) {
+  create(req: ScriptCreateReq[]) {
     return defHttp.post({ url: this.resPath, params: req });
   }
   // enable(id: string) {

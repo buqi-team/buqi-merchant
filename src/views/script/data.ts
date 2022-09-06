@@ -154,100 +154,23 @@ export const searchFormSchema: FormSchema[] = [
 ];
 export const scriptFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '名称',
+    field: 'scriptId',
+    label: '剧本ID',
     component: 'Input',
     // required: true,
   },
   {
-    field: 'number_max',
-    label: '最大人数',
+    field: 'price',
+    label: '价格',
     component: 'InputNumber',
-    defaultValue: 8,
+    defaultValue: 0,
     // required: true,
   },
   {
-    field: 'number_min',
-    label: '最小人数',
+    field: 'originalPrice',
+    label: '原价',
     component: 'InputNumber',
-    defaultValue: 5,
+    defaultValue: 0,
     // required: true,
-  },
-  {
-    field: 'minute_duration',
-    label: '时长',
-    component: 'InputNumber',
-    defaultValue: 240,
-    helpMessage: ['单位为分钟'],
-  },
-  {
-    field: 'cover_url',
-    label: '封面图',
-    helpMessage: ['必须使用https链接'],
-    component: 'Input',
-    // required: true,
-    slot: 'coverUrl',
-  },
-  {
-    field: 'author_name',
-    label: '作者',
-    component: 'Input',
-    // required: true,
-  },
-  {
-    field: 'publish_date',
-    label: '发行时间',
-    component: 'DatePicker',
-    componentProps: {
-      valueFormat: 'X',
-    },
-    // required: true,
-  },
-  {
-    field: 'description',
-    label: '简介',
-    component: 'Input',
-    // required: true,
-  },
-  {
-    field: 'detail',
-    label: '详情',
-    component: 'Input',
-    // rules: [{ required: true }],
-    render: ({ model, field }) => {
-      return h(Tinymce, {
-        value: model[field],
-        onChange: (value: string) => {
-          model[field] = value;
-        },
-      });
-    },
-  },
-  {
-    field: 'status',
-    label: '状态',
-    // required: true,
-    component: 'RadioButtonGroup',
-    componentProps: {
-      options: [
-        { label: '停用', value: 0 },
-        { label: '启用', value: 1 },
-      ],
-    },
-  },
-  {
-    field: 'styleIds',
-    label: '类型标签',
-    component: 'Select',
-    // required: true,
-    componentProps: {
-      mode: 'multiple',
-      replaceFields: {
-        title: 'label',
-        key: 'value',
-        value: 'value',
-      },
-      // getPopupContainer: () => document.body,
-    },
   },
 ];

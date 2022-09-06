@@ -1,8 +1,9 @@
 <template>
   <PageWrapper title="剧本管理" contentBackground>
-    <BasicTable title="剧本列表" @register="registerTable">
+    <BasicTable ref="tableRef" title="剧本列表" @register="registerTable">
       <template #toolbar>
         <a-button type="primary" @click="handleAdd">剧本添加</a-button>
+        <a-button type="primary" @click="handleMultipleDelete">批量删除</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -12,12 +13,12 @@
               tooltip: '查看',
               onClick: handleView.bind(null, record),
             },
-            {
-              label: '编辑',
-              tooltip: '编辑',
+            // {
+            //   label: '编辑',
+            //   tooltip: '编辑',
 
-              onClick: handleEdit.bind(null, record),
-            },
+            //   onClick: handleEdit.bind(null, record),
+            // },
             {
               label: '删除',
 
@@ -33,12 +34,12 @@
       </template>
     </BasicTable>
     <ScriptModal @register="registerModalView" />
-    <!-- <ScriptAdd @register="registerModalAdd" @success="handleSuccess"> </ScriptAdd>
-    <ScriptEdit @register="registerModalEdit" @success="handleSuccess"></ScriptEdit> -->
+    <ScriptAdd @register="registerModalAdd" @success="handleSuccess"> </ScriptAdd>
+    <!-- <ScriptEdit @register="registerModalEdit" @success="handleSuccess"></ScriptEdit> -->
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, TableActionType } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { appAdmin } from '/@/api/services/AppAdmin';
   //   import { PlayerModel } from '/@/app-shared/services/AppAdmin/Player';
@@ -48,31 +49,27 @@
   import { ScriptModel } from '/@/api/services/AppAdmin/Script';
   import ScriptAdd from './scriptAdd.vue';
   import ScriptEdit from './scriptEdit.vue';
-  import { computed, ref, reactive, onMounted, watch } from 'vue';
-
+  import { computed, ref, reactive, onMounted, watch, unref } from 'vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createSuccessModal, createMessage } = useMessage();
   const [registerModalView, { openModal: openModal1 }] = useModal();
   const [registerModalEdit, { openModal: openModal2 }] = useModal();
   const [registerModalAdd, { openModal: openModal3 }] = useModal();
   //   const searchInfo = reactive<Recordable>({});
 
   const listConditionRef = ref({
-    // name: null,
-    // status: null,
-    // total: 0,
     page: 1,
     pageSize: 10,
     keyword: '',
-    // preloads: ['styles'],
   });
   const data = reactive<ScriptModel[]>([]);
 
   const reloadListData = async (e) => {
     var listCond = listConditionRef.value;
-    // listCond.page = e.page;
-    // listCond.pageSize = e.pageSize;
+    listCond.page = e.page;
+    listCond.pageSize = e.pageSize;
     data.length = 0;
     const res = await appAdmin.script.list(listCond);
-    console.log(res);
 
     for (let i = 0; i < res.items.length; i++) {
       data.push({
@@ -93,21 +90,11 @@
         updatedAt: res.items[i].updatedAt,
       });
     }
-    console.log(res);
-    // setPagination({
-    //     current:getPaginationRef().current;
-    // })
-
     listConditionRef.value = {
-      // name: listCond.name,
-      // status: listCond.status,
-      // total: res.total,
       keyword: listCond.keyword,
       page: res.page,
       pageSize: res.pageSize,
-      // preloads: listCond.preloads,
     };
-    // console.log(res);
     return res;
   };
 
@@ -116,7 +103,6 @@
       isUpdate: true,
       record,
     });
-    // // go('/system/account_detail/' + record.id);
   }
   function handleEdit(record: Recordable) {
     openModal2(true, {
@@ -132,8 +118,32 @@
   }
 
   async function handleDelete(record: Recordable) {
-    await appAdmin.script.delete(record.id);
+    let id = record.id.split();
+    await appAdmin.script.delete(id);
     reload();
+  }
+  const tableRef = ref<Nullable<TableActionType>>(null);
+  function getTableAction() {
+    const tableAction = unref(tableRef);
+    if (!tableAction) {
+      throw new Error('tableAction is null');
+    }
+    return tableAction;
+  }
+  async function handleMultipleDelete(record: Recordable) {
+    try {
+      const id = getTableAction()
+        .getSelectRows()
+        .map((i) => i.id);
+
+      const res = await appAdmin.script.delete(id);
+      console.log(res);
+      getTableAction().clearSelectedRowKeys();
+      createMessage.success('删除成功');
+      reload();
+    } catch {
+      createMessage.error('删除失败');
+    }
   }
 
   const [
@@ -164,15 +174,8 @@
     },
   });
 
-  function handleSuccess({ isUpdate, values }) {
-    if (isUpdate) {
-      // 演示不刷新表格直接更新内部数据。
-      // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      // const result = updateTableDataRecord(values.id, values);
-      // console.log(result);
-    } else {
-      reload();
-    }
+  function handleSuccess() {
+    reload();
   }
   //   onMounted(() => {});
 </script>
