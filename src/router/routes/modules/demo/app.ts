@@ -14,14 +14,14 @@ const dashboard: AppRouteModule = {
     ignoreKeepAlive: false,
   },
   children: [
-    // {
-    //   path: 'gameShop',
-    //   name: 'gameShopsPage',
-    //   component: () => import('/@/views/game_shop/GameShopList.vue'),
-    //   meta: {
-    //     title: t('routes.demo.appAdmin.gameShop'),
-    //   },
-    // },
+    {
+      path: 'gameShop',
+      name: 'gameShopsPage',
+      component: () => import('/@/views/game_shop/basicInfo.vue'),
+      meta: {
+        title: t('routes.demo.appAdmin.gameShop'),
+      },
+    },
     {
       path: 'event',
       name: 'eventListPage',

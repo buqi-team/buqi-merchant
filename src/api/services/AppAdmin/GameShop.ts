@@ -29,22 +29,23 @@ export interface GameShopListReq {
   // status?: number;
 }
 export interface GameShopUpdateReq {
-  id: string;
   name: string;
-  coverUrl: string;
-  bannerUrl: string;
-  logoUrl: string;
+  cover_url: string;
+  banner_url: string;
+  logo_url: string;
   summary: string;
   detail: string;
   manager: string;
-  managerPhone: string;
-  mapPosLng: number;
-  mapPosLat: number;
-  mapRegion: number;
-  mapAddress: string;
-  settledDate: number;
-  supportWechat: string;
-  supportPhone: string;
+  manager_phone: string;
+  map_pos_lng: number;
+  map_pos_lat: number;
+  map_region: number;
+  map_address: string;
+  settled_date: number;
+  support_wechat: string;
+  support_phone: string;
+  rating: number;
+  opening_hours: string;
   status: number;
 }
 export interface GameShopCreateReq {
@@ -67,22 +68,20 @@ export interface GameShopCreateReq {
 }
 export class GameShopAPI {
   // http: AxiosInstance;
-  resPath = '/app/admin/game_shops';
+  resPath = '/shop';
   // constructor(axIns) {
   //   this.http = axIns;
   // }
-  get(id: string) {
-    return defHttp.get<GameShopModel>({ url: this.resPath + '/' + id });
-  }
-  list(req: GameShopListReq) {
-    return defHttp.get<PagedResp<GameShopModel>>(
-      { url: '/app/admin/shop', params: req },
-      { apiUrl: 'https://buqi.4536251.cn:9991/api/v1' },
-    );
+  get() {
+    return defHttp.get<GameShopModel>({ url: this.resPath });
   }
   update(req: GameShopUpdateReq) {
-    return defHttp.put({ url: this.resPath + '/' + req.id, params: req });
+    return defHttp.put({ url: this.resPath, params: req });
   }
+  list(req: GameShopListReq) {
+    return defHttp.get<PagedResp<GameShopModel>>({ url: this.resPath, params: req });
+  }
+
   delete(id: string) {
     return defHttp.delete({ url: this.resPath + `/${id}` });
   }

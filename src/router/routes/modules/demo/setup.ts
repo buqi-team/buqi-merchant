@@ -9,7 +9,6 @@ const setup: AppRouteModule = {
   component: LAYOUT,
   redirect: '/setup/index',
   meta: {
-    hideMenu: true,
     orderNo: 90000,
     hideChildrenInMenu: true,
     icon: 'whh:paintroll',
