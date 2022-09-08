@@ -1,8 +1,8 @@
 <template>
   <div class="p-2">
-    <div class="p-4 mb-2 bg-white">
+    <!-- <div class="p-4 mb-2 bg-white">
       <BasicForm @register="registerForm" />
-    </div>
+    </div> -->
     <div class="p-2 bg-white">
       <List
         :grid="{ gutter: 5, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: grid }"
@@ -35,7 +35,7 @@
               <template #title></template>
               <template #cover>
                 <div :class="height">
-                  <Image :src="item.imgs[0]" />
+                  <Image :src="item.url" />
                 </div>
               </template>
               <template #actions>
@@ -55,11 +55,11 @@
                   ]"
                   popconfirm
                 >
-                  <EllipsisOutlined key="ellipsis" />
+                  <EllipsisOutlined key="delete" />
                 </Dropdown>
               </template>
 
-              <CardMeta>
+              <!-- <CardMeta>
                 <template #title>
                   <TypographyText :content="item.name" :ellipsis="{ tooltip: item.address }" />
                 </template>
@@ -67,7 +67,7 @@
                   <Avatar :src="item.avatar" />
                 </template>
                 <template #description>{{ item.time }}</template>
-              </CardMeta>
+              </CardMeta> -->
             </Card>
           </ListItem>
         </template>

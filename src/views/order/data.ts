@@ -91,6 +91,7 @@ export const searchFormSchema: FormSchema[] = [
     label: '搜索状态',
     component: 'Select',
     componentProps: {
+      mode: 'multiple',
       options: [
         { label: '未付款', value: 0 },
         { label: '已付款', value: 1 },

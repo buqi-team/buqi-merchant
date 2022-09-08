@@ -1,23 +1,16 @@
 <template>
   <PageWrapper title="店铺图片管理" contentBackground>
-    <BasicTable ref="tableRef" title="店铺图片列表" @register="registerTable">
-      <template #toolbar>
-        <a-button type="primary" @click="handleAdd">添加店铺图片</a-button>
-        <a-button type="default" @click="handleDelete">批量删除</a-button>
+    <CardList :api="reloadListData" @get-method="getMethod" @delete="handleDel">
+      <template #header>
+        <Button @click="handleAdd" type="primary"> 添加店铺图片 </Button>
       </template>
-      <template #imageUrl="{ record }">
-        <!-- <Image v-bind="record.url"> -->
-        <!-- <template #placeholder v-if="record.url"> -->
-        <Image :width="100" :src="record.url" :preview="true" />
-        <!-- </template> -->
-        <!-- </Image> -->
-        <!-- <Image v-if="record.url" :size="60" :src="record.url" /> -->
-      </template>
-    </BasicTable>
+    </CardList>
     <PictureAdd @register="registerModalAdd" @success="handleSuccess"></PictureAdd>
   </PageWrapper>
 </template>
 <script lang="ts" setup>
+  import { CardList } from '/@/components/CardList';
+  import { Button } from '/@/components/Button';
   import { Image } from 'ant-design-vue';
   import { BasicTable, useTable, TableActionType } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
@@ -27,14 +20,22 @@
   import { useRouter } from 'vue-router';
   import { computed, ref, reactive, onMounted, watch, unref } from 'vue';
   import { useModal } from '/@/components/Modal';
-  //   import { useGo } from '/@/hooks/web/usePage';
-  //   const go = useGo();
-  //   const searchInfo = reactive<Recordable>({});
   import { useMessage } from '/@/hooks/web/useMessage';
   const { createSuccessModal, createMessage } = useMessage();
   const [registerModalAdd, { openModal: openModal3 }] = useModal();
   const { currentRoute } = useRouter();
 
+  // let reload = (e) => {
+  //   reloadListData(e)
+  // };
+  function getMethod(m: any) {}
+
+  async function handleDel(id) {
+    console.log(id);
+    await appAdmin.gameShopPics.delete(id);
+    createMessage.success('删除成功');
+    // reload();
+  }
   const listConditionRef = ref({
     pageSize: 10,
     page: 1,
@@ -63,82 +64,13 @@
     };
     return res;
   }
-
-  function handleView(record: Recordable) {
-    // openModal1(true, {
-    //   isUpdate: true,
-    //   record,
-    // });
-    // // go('/system/account_detail/' + record.id);
-  }
-  function handleEdit(record: Recordable) {
-    // openModal2(true, {
-    //   record,
-    //   isUpdate: true,
-    // });
-  }
-
   function handleAdd() {
-    // go('../addScript/' + shopId.value);
     openModal3(true, {
       isUpdate: true,
     });
   }
 
-  const tableRef = ref<Nullable<TableActionType>>(null);
-  function getTableAction() {
-    const tableAction = unref(tableRef);
-    if (!tableAction) {
-      throw new Error('tableAction is null');
-    }
-    return tableAction;
-  }
-  async function handleDelete(record: Recordable) {
-    try {
-      const picsId = getTableAction()
-        .getSelectRows()
-        .map((i) => i.id);
-      console.log(picsId);
-
-      const form = {
-        id: picsId,
-      };
-      console.log(form);
-
-      const res = await appAdmin.gameShopPics.delete(form.id);
-      console.log(res);
-      getTableAction().clearSelectedRowKeys();
-      createMessage.success('删除成功');
-      reload();
-    } catch {
-      createMessage.error('删除失败');
-    }
-  }
-
   function handleSuccess({ isUpdate, values }) {
-    if (isUpdate) {
-      reload();
-      // 演示不刷新表格直接更新内部数据。
-      // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      // const result = updateTableDataRecord(values.id, values);
-      // console.log(result);
-    } else {
-      reload();
-    }
+    // reload();
   }
-  const [registerTable, { reload }] = useTable({
-    columns: columns,
-    api: reloadListData,
-    dataSource: data,
-
-    // showIndexColumn: true,
-    // useSearchForm: true,
-    rowSelection: { type: 'checkbox' },
-    // bordered: true,
-    // showTableSetting: true,
-    // handleSearchInfoFn(info) {
-    //   listConditionRef.value.shopId = info.shopId;
-    //   reloadListData;
-    // },
-  });
 </script>

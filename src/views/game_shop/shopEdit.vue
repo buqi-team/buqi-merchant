@@ -51,8 +51,8 @@
   import { appAdmin, GameShopUpdateReq } from '/@/api/services/AppAdmin';
   import { shopFormSchema } from './data';
   import { useMessage } from '/@/hooks/web/useMessage';
-  const { createSuccessModal, createMessage } = useMessage();
   import { useGo } from '/@/hooks/web/usePage';
+  const { createSuccessModal, createMessage } = useMessage();
   const go = useGo();
   function handleMap() {
     window.open('https://lbs.qq.com/getPoint/', '_blank');

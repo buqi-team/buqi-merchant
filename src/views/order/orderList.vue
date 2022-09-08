@@ -70,10 +70,10 @@
   end.setDate(end.getDate() + 14);
   const date = [start, end];
   const listConditionRef = ref({
-    // startDate: moment(date[0]).utc().format(),
-    // endDate: moment(date[1]).utc().format(),
-    // status: [0, 1, 2, 3, 4],
-    // total: 0,
+    startDate: moment(date[0]).utc().format(),
+    endDate: moment(date[1]).utc().format(),
+    status: [0, 1, 2, 3, 4],
+    total: 0,
     page: 1,
     pageSize: 10,
   });
@@ -102,10 +102,10 @@
     // console.log(res);
 
     listConditionRef.value = {
-      // startDate: listCond.startDate,
-      // endDate: listCond.endDate,
-      // status: listCond.status,
-      // total: res.total,
+      startDate: listCond.startDate,
+      endDate: listCond.endDate,
+      status: listCond.status,
+      total: res.total,
       page: res.page,
       pageSize: res.pageSize,
     };
@@ -127,14 +127,7 @@
     // });
   }
 
-  function handleAdd() {
-    // openModal3(true, {
-    //   isUpdate: true,
-    // });
-  }
-
   async function handleDelete(record: Recordable) {
-    // console.log(record);
     const form: OrderRefundReq = {
       orderId: record.id,
     };
@@ -162,13 +155,12 @@
       autoSubmitOnEnter: true,
     },
     handleSearchInfoFn(info) {
-      let arrSelect;
-      if (info.status > -1) {
-        arrSelect = info.status.toString().split();
-        listConditionRef.value.status = arrSelect.concat();
+      if (info.status) {
+        listConditionRef.value.status = [...info.status];
       } else {
         listConditionRef.value.status = [0, 1, 2, 3, 4];
       }
+      reloadListData;
     },
     actionColumn: {
       title: '操作',
