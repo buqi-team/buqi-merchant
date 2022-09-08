@@ -2,6 +2,7 @@ export default {
   appAdmin: {
     app: 'App管理',
     gameShop: '店铺信息',
+    shopEdit: '店铺编辑',
     event: '活动管理',
     order: '订单管理',
     script: '剧本管理',

@@ -20,7 +20,22 @@ const dashboard: AppRouteModule = {
       component: () => import('/@/views/game_shop/basicInfo.vue'),
       meta: {
         title: t('routes.demo.appAdmin.gameShop'),
+        hideChildrenInMenu: true,
       },
+      children: [
+        {
+          path: 'shopEdit',
+          name: 'gameShopsEditPage',
+          component: () => import('/@/views/game_shop/shopEdit.vue'),
+          meta: {
+            currentActiveMenu: '/app/gameShop',
+            title: t('routes.demo.appAdmin.shopEdit'),
+            hideMenu: true,
+            dynamicLevel: 3,
+            realPath: '/app/gameShop/shopEdit',
+          },
+        },
+      ],
     },
     {
       path: 'event',

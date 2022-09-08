@@ -1,16 +1,9 @@
 <template>
-  <PageWrapper title="详情组件示例">
-    <a-button type="primary" @click="handleShop(dataSource)">编辑店铺信息</a-button>
-    <Description
-      class="mt-4"
-      title="店铺"
-      layout="vertical"
-      :collapseOptions="{ canExpand: true, helpMessage: 'help me' }"
-      :data="dataSource"
-      :schema="schema"
-    />
+  <PageWrapper title="店铺信息">
+    <a-button type="primary" @click="toEdit()">编辑店铺信息</a-button>
+    <Description :column="3" class="mt-4" title="店铺" :data="dataSource" :schema="schema" />
 
-    <ShopEdit @register="registerModalEdit" @success="handleSuccess"></ShopEdit>
+    <!-- <ShopEdit @register="registerModalEdit" @success="handleSuccess"></ShopEdit> -->
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -21,7 +14,9 @@
   import { useModal } from '/@/components/Modal';
   import ShopEdit from './shopEdit.vue';
   import { appAdmin, GameShopModel } from '/@/api/services/AppAdmin';
-  const [registerModalEdit, { openModal: openModal1 }] = useModal();
+  import { useGo } from '/@/hooks/web/usePage';
+  // const [registerModalEdit, { openModal: openModal1 }] = useModal();
+  const go = useGo();
   let data = reactive<any>({ value: {} });
   async function reloadListData() {
     const res = await appAdmin.gameShop.get();
@@ -53,15 +48,12 @@
   let dataSource = computed(() => {
     return data.value;
   });
-  function handleShop(record) {
-    openModal1(true, {
-      isUpdate: true,
-      record,
-    });
+  function toEdit() {
+    go(`/app/gameShop/shopEdit`);
   }
-  function handleSuccess({ isUpdate, values }) {
-    reloadListData();
-  }
+  // function handleSuccess({ isUpdate, values }) {
+  //   reloadListData();
+  // }
   onMounted(() => {
     reloadListData();
     // console.log(dataSource);

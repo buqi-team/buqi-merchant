@@ -49,7 +49,7 @@ export const schema: DescItem[] = [
   },
   {
     field: 'opening_hours',
-    label: '开店时长',
+    label: '营业时间',
   },
   {
     field: 'manager',
@@ -99,18 +99,6 @@ export const schema: DescItem[] = [
 
 export const shopFormSchema: FormSchema[] = [
   {
-    field: 'status',
-    label: '状态',
-    // required: true,
-    component: 'RadioButtonGroup',
-    componentProps: {
-      options: [
-        { label: '停用', value: 0 },
-        { label: '启用', value: 1 },
-      ],
-    },
-  },
-  {
     field: 'name',
     label: '店名',
     component: 'Input',
@@ -145,6 +133,9 @@ export const shopFormSchema: FormSchema[] = [
     component: 'Input',
     label: '详情',
     // rules: [{ required: true }],
+    colProps: {
+      span: 24,
+    },
     render: ({ model, field }) => {
       return h(Tinymce, {
         value: model[field],
@@ -158,6 +149,7 @@ export const shopFormSchema: FormSchema[] = [
     field: 'summary',
     label: '简介',
     component: 'Input',
+
     // required: true,
   },
   {
@@ -168,9 +160,11 @@ export const shopFormSchema: FormSchema[] = [
   },
   {
     field: 'opening_hours',
-    label: '开店时长',
+    label: '营业时间',
     component: 'Input',
-    // required: true,
+    componentProps: {
+      placeholder: '开始时间-结束时间',
+    },
   },
   {
     field: 'manager',
@@ -206,14 +200,7 @@ export const shopFormSchema: FormSchema[] = [
     component: 'Input',
     // required: true,
   },
-  {
-    field: 'settled_date',
-    label: '入驻时间',
-    component: 'DatePicker',
-    componentProps: {
-      valueFormat: 'X',
-    },
-  },
+
   {
     field: 'support_wechat',
     label: '客服微信',
@@ -224,6 +211,7 @@ export const shopFormSchema: FormSchema[] = [
     field: 'support_phone',
     label: '客服电话',
     component: 'Input',
+
     // required: true,
   },
 ];

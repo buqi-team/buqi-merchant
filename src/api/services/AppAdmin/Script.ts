@@ -52,7 +52,7 @@ export class ScriptAPI {
   //   return defHttp.get<PagedResp<ScriptModel>>({ url: this.resPath, params: req });
   // }
   list(req: ScriptListReq) {
-    return defHttp.get({ url: '/script_list', params: req });
+    return defHttp.get({ url: this.resPath, params: req });
   }
   update(req: ScriptUpdateReq) {
     return defHttp.put({ url: this.resPath + '/' + req.id, params: req });
