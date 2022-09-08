@@ -86,6 +86,37 @@ export const columns: BasicColumn[] = [
     },
   },
 ];
+export const linkScriptColumns: BasicColumn[] = [
+  //待关联列表表头
+  {
+    title: '剧本ID',
+    dataIndex: 'id',
+  },
+  {
+    title: '剧本名字',
+    dataIndex: 'name',
+  },
+  {
+    title: '剧本价格',
+    dataIndex: 'price',
+    edit: true,
+    // customRender: ({ record }) => {
+    //   return h(InputNumber, {
+    //     placeholder: '请输入',
+    //   },()=>record);
+    // }
+  },
+  {
+    title: '剧本原价',
+    dataIndex: 'originalPrice',
+    edit: true,
+    // customRender: ({ record }) => {
+    //   return h(InputNumber, {
+    //     placeholder: '请输入',
+    //   },()=>record);
+    // }
+  },
+];
 export const scriptSchema: DescItem[] = [
   {
     field: 'status',

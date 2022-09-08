@@ -9,6 +9,7 @@ const about: AppRouteModule = {
   component: LAYOUT,
   redirect: '/about/index',
   meta: {
+    hideMenu: true,
     hideChildrenInMenu: true,
     icon: 'simple-icons:about-dot-me',
     title: t('routes.dashboard.about'),

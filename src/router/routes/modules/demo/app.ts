@@ -59,7 +59,22 @@ const dashboard: AppRouteModule = {
       component: () => import('/@/views/script/scriptList.vue'),
       meta: {
         title: t('routes.demo.appAdmin.script'),
+        hideChildrenInMenu: true,
       },
+      children: [
+        {
+          path: 'findScript',
+          name: 'findScriptPage',
+          component: () => import('/@/views/script/findScript.vue'),
+          meta: {
+            currentActiveMenu: '/app/script',
+            title: t('routes.demo.appAdmin.findScript'),
+            hideMenu: true,
+            dynamicLevel: 3,
+            realPath: '/app/script/findScript',
+          },
+        },
+      ],
     },
     {
       path: 'pictures',

@@ -32,7 +32,7 @@ export interface ScriptSearchListReq {
 
 export class ScriptSearchAPI {
   // http: AxiosInstance
-  resPath = '/app/admin/script';
+  resPath = '/script';
   // constructor(axIns) {
   //     this.http = axIns
   // }
@@ -41,10 +41,7 @@ export class ScriptSearchAPI {
   //     return defHttp.get<ScriptModel>({ url: this.resPath + '/' + id, params: { preloads } });
   //   }
   find(req: ScriptImportMatchReq) {
-    return defHttp.get<PagedResp<ScriptModel>>(
-      { url: this.resPath + '/findByName', params: req },
-      { apiUrl: 'https://buqi.4536251.cn:9991/api/v1' },
-    );
+    return defHttp.get<PagedResp<ScriptModel>>({ url: this.resPath + '/findByName', params: req });
   }
   list(req: ScriptSearchListReq) {
     return defHttp.get<PagedResp<ScriptModel>>(

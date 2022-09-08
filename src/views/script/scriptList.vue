@@ -3,6 +3,7 @@
     <BasicTable ref="tableRef" title="剧本列表" @register="registerTable">
       <template #toolbar>
         <a-button type="primary" @click="handleAdd">剧本添加</a-button>
+        <a-button type="primary" @click="handleFind">关联剧本</a-button>
         <a-button type="primary" @click="handleMultipleDelete">批量删除</a-button>
       </template>
       <template #action="{ record }">
@@ -13,12 +14,6 @@
               tooltip: '查看',
               onClick: handleView.bind(null, record),
             },
-            // {
-            //   label: '编辑',
-            //   tooltip: '编辑',
-
-            //   onClick: handleEdit.bind(null, record),
-            // },
             {
               label: '删除',
 
@@ -42,7 +37,6 @@
   import { BasicTable, useTable, TableAction, TableActionType } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { appAdmin } from '/@/api/services/AppAdmin';
-  //   import { PlayerModel } from '/@/app-shared/services/AppAdmin/Player';
   import { columns, searchFormSchema } from './data';
   import { useModal } from '/@/components/Modal';
   import ScriptModal from './scriptModal.vue';
@@ -51,7 +45,9 @@
   import ScriptEdit from './scriptEdit.vue';
   import { computed, ref, reactive, onMounted, watch, unref } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { useGo } from '/@/hooks/web/usePage';
   const { createSuccessModal, createMessage } = useMessage();
+  const go = useGo();
   const [registerModalView, { openModal: openModal1 }] = useModal();
   const [registerModalEdit, { openModal: openModal2 }] = useModal();
   const [registerModalAdd, { openModal: openModal3 }] = useModal();
@@ -97,6 +93,10 @@
     };
     return res;
   };
+
+  function handleFind() {
+    go(`/app/script/findScript`);
+  }
 
   function handleView(record: Recordable) {
     openModal1(true, {
@@ -154,7 +154,7 @@
     api: reloadListData,
     dataSource: data,
     showIndexColumn: true,
-    useSearchForm: true,
+    useSearchForm: false,
     rowSelection: { type: 'checkbox' },
     bordered: true,
     showTableSetting: true,
