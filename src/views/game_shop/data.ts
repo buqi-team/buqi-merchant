@@ -102,6 +102,9 @@ export const shopFormSchema: FormSchema[] = [
     field: 'name',
     label: '店名',
     component: 'Input',
+    colProps: {
+      span: 24,
+    },
     // required: true,
   },
   {
@@ -109,6 +112,9 @@ export const shopFormSchema: FormSchema[] = [
     label: '封面图',
     helpMessage: ['必须使用https链接'],
     component: 'Input',
+    colProps: {
+      span: 24,
+    },
     // required: true,
     slot: 'coverUrl',
   },
@@ -119,6 +125,9 @@ export const shopFormSchema: FormSchema[] = [
     component: 'Input',
     // required: true,
     slot: 'bannerUrl',
+    colProps: {
+      span: 24,
+    },
   },
   {
     field: 'logo_url',
@@ -127,6 +136,9 @@ export const shopFormSchema: FormSchema[] = [
     component: 'Input',
     // required: true,
     slot: 'logoUrl',
+    colProps: {
+      span: 24,
+    },
   },
   {
     field: 'detail',

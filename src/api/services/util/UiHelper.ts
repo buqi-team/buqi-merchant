@@ -48,12 +48,13 @@ export class UiHelper {
   async handleUpload(e) {
     console.log('handleUpload', e);
     try {
-      const ret = await system.storage.putImage({ file: e.file });
-      e.onSuccess();
+      const ret = await system.storage.putImage(e);
+      // e.onSuccess();
       console.log(ret);
       return ret.url;
     } catch (error) {
-      e.onError();
+      console.log(error);
+      // e.onError();
     }
   }
   async sleep(ms) {

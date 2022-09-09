@@ -3,34 +3,43 @@
     <BasicForm @register="registerForm">
       <template #coverUrl="{ model, field }">
         <a-input v-model:value="model.cover_url" />
-        <!-- <BasicUpload
-          :maxSize="20"
-          :maxNumber="10"
+        <Upload
+          name="file"
           @change="handleChange"
-          :api="uploadCoverUrlApi"
-          class="my-5"
-          :accept="['image/*']"
-        /> -->
-        <!-- <a-upload
-      v-model:file-list="fileList"
-      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-      list-type="picture"
-    >
-      <a-button>
-        <upload-outlined></upload-outlined>
-        upload
-      </a-button>
-    </a-upload> -->
-
-        <!-- <Upload :model="model.cover_url" @uploadCoverUrlApi="uploadCoverUrlApi"></Upload> -->
+          :show-upload-list="false"
+          :action="uploadCoverUrlApi"
+          accept=".jpg,.jpeg,.gif,.png,.webp,.jfif"
+        >
+          <img :src="model.coverUrl" />
+          <a-button> 上传 </a-button>
+        </Upload>
+        <img :src="model.cover_url" />
       </template>
       <template #bannerUrl="{ model, field }">
         <a-input v-model:value="model.banner_url" />
-        <!-- <Upload :model="model.banner_url" @uploadCoverUrlApi="uploadBannerUrlApi"></Upload> -->
+        <Upload
+          name="file"
+          @change="handleChange"
+          :show-upload-list="false"
+          :action="uploadBannerUrlApi"
+          accept=".jpg,.jpeg,.gif,.png,.webp,.jfif"
+        >
+          <a-button> 上传 </a-button>
+        </Upload>
+        <img :src="model.banner_url" />
       </template>
       <template #logoUrl="{ model, field }">
         <a-input v-model:value="model.logo_url" />
-        <!-- <Upload :model="model.logo_url" @uploadCoverUrlApi="uploadLogoUrlApi"></Upload> -->
+        <Upload
+          name="file"
+          @change="handleChange"
+          :show-upload-list="false"
+          :action="uploadLogoUrlApi"
+          accept=".jpg,.jpeg,.gif,.png,.webp,.jfif"
+        >
+          <a-button> 上传 </a-button>
+        </Upload>
+        <img :src="model.logo_url" />
       </template>
       <template #mapPos="{ model, field }">
         <a-input v-model:value="model.mapPos" />
@@ -43,8 +52,11 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
+  import { uploadApi } from '/@/api/sys/upload';
+  import { Upload } from 'ant-design-vue';
   import { UploadOutlined } from '@ant-design/icons-vue';
   import { PageWrapper } from '/@/components/Page';
+  import { BasicUpload } from '/@/components/Upload';
   import { ref, reactive, computed, unref, defineProps, defineEmits, onMounted } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import UiHelper from '/@/api/services/util/UiHelper';
@@ -54,13 +66,19 @@
   import { useGo } from '/@/hooks/web/usePage';
   const { createSuccessModal, createMessage } = useMessage();
   const go = useGo();
+  const handleChange = (list: string[]) => {
+    // createMessage.info(`已上传文件${JSON.stringify(list)}`);
+  };
   function handleMap() {
     window.open('https://lbs.qq.com/getPoint/', '_blank');
   }
 
   async function uploadCoverUrlApi(e) {
     console.log(e);
-    const ret = await UiHelper.handleUpload(e);
+    let form = {
+      file: e,
+    };
+    const ret = await UiHelper.handleUpload(form);
 
     console.log(ret);
     setFieldsValue({
@@ -70,7 +88,10 @@
   }
   async function uploadBannerUrlApi(e) {
     console.log(e);
-    const ret = await UiHelper.handleUpload(e);
+    let form = {
+      file: e,
+    };
+    const ret = await UiHelper.handleUpload(form);
     console.log(ret);
     setFieldsValue({
       banner_url: ret,
@@ -78,7 +99,10 @@
   }
   async function uploadLogoUrlApi(e) {
     console.log(e);
-    const ret = await UiHelper.handleUpload(e);
+    let form = {
+      file: e,
+    };
+    const ret = await UiHelper.handleUpload(form);
     console.log(ret);
     setFieldsValue({
       logo_url: ret,

@@ -3,31 +3,25 @@
     <BasicForm @register="registerForm">
       <template #coverUrl="{ model, field }">
         <a-input v-model:value="model.coverUrl"></a-input>
-        <!-- <div v-for="item in shopArr">
-          <img :src="item" />
-        </div>
-
-        <a-upload :showUploadList="true" :multiple="true" :customRequest="uploadCoverUrlApi">
-          <a-button> <upload-outlined></upload-outlined> 上传</a-button>
-        </a-upload> -->
-        <BasicUpload
-          :maxSize="20"
-          :maxNumber="10"
+        <Upload
+          name="file"
           @change="handleChange"
-          :api="uploadCoverUrlApi"
-          class="my-5"
-          :accept="['image/*']"
-        />
+          :show-upload-list="false"
+          :action="uploadCoverUrlApi"
+          accept=".jpg,.jpeg,.gif,.png,.webp,.jfif"
+        >
+          <a-button> Upload </a-button>
+        </Upload>
+        <img :src="model.coverUrl" />
       </template>
     </BasicForm>
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { UploadOutlined } from '@ant-design/icons-vue';
-  import { BasicUpload } from '/@/components/Upload';
+  import { Upload } from 'ant-design-vue';
   import { ref, computed, unref, defineProps, defineEmits } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { Upload } from '/@/components/bq-Upload';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import UiHelper from '/@/api/services/util/UiHelper';
   import { appAdmin, GameShopPicsCreateReq } from '/@/api/services/AppAdmin';
@@ -40,11 +34,14 @@
 
   let shopArr: any = [];
   const handleChange = (list: string[]) => {
-    createMessage.info(`已上传文件${JSON.stringify(list)}`);
+    // createMessage.info(`已上传文件${JSON.stringify(list)}`);
   };
   async function uploadCoverUrlApi(e) {
     console.log(e);
-    const ret = await UiHelper.handleUpload(e);
+    let form = {
+      file: e,
+    };
+    const ret = await UiHelper.handleUpload(form);
     console.log(ret);
 
     if (ret) shopArr.push(ret);
@@ -52,6 +49,8 @@
     setFieldsValue({
       coverUrl: shopArr.toString(),
     });
+
+    return ret;
   }
 
   const emit = defineEmits(['success', 'register']);
@@ -63,6 +62,7 @@
   const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
     labelWidth: 100,
     schemas: editFormSchema,
+    useSearchForm: false,
     showActionButtonGroup: false,
     actionColOptions: {
       span: 26,

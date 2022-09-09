@@ -31,10 +31,10 @@
   function getMethod(m: any) {}
 
   async function handleDel(id) {
-    console.log(id);
-    await appAdmin.gameShopPics.delete(id);
+    let form = id.split();
+    await appAdmin.gameShopPics.delete(form);
     createMessage.success('删除成功');
-    // reload();
+    reload();
   }
   const listConditionRef = ref({
     pageSize: 10,

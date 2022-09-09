@@ -1,8 +1,17 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModalAdd" @ok="handleSubmit" title="编辑玩家">
+  <BasicModal v-bind="$attrs" @register="registerModalAdd" @ok="handleSubmit" title="添加活动">
     <BasicForm @register="registerForm">
       <template #imageUrls="{ model, field }">
-        <Upload
+        <a-input v-model:value="model.imageUrls"></a-input>
+        <BasicUpload
+          :maxSize="20"
+          :maxNumber="10"
+          @change="handleChange"
+          :api="uploadCoverUrlApi"
+          class="my-5"
+          :accept="['image/*']"
+        />
+        <!-- <Upload
           v-if="model.avatarUrl"
           :model="model.avatarUrl"
           @uploadCoverUrlApi="uploadAvatarUrlApi"
@@ -11,7 +20,7 @@
           <a-upload :showUploadList="true" :multiple="false" :customRequest="uploadAvatarUrlApi">
             <a-button> <upload-outlined></upload-outlined> 上传</a-button>
           </a-upload>
-        </div>
+        </div> -->
       </template>
     </BasicForm>
   </BasicModal>
@@ -58,7 +67,9 @@
       });
     }
   });
-
+  const handleChange = (list: string[]) => {
+    createMessage.info(`已上传文件${JSON.stringify(list)}`);
+  };
   const handleSubmit = async () => {
     try {
       const values = await validate();
