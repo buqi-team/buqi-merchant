@@ -20,6 +20,7 @@
 
     <BasicTable title="待关联列表" @register="registerTable">
       <template #toolbar>
+        <a-button @click="handleTemplate">下载导入模板</a-button>
         <ImpExcel @success="loadDataSuccess" @error="loadDataFail">
           <a-button class="m-3"> 导入Excel </a-button>
         </ImpExcel>
@@ -93,26 +94,42 @@
         results,
         meta: { sheetName },
       } = excelData;
-      // var listCond = listConditionRef.value;
 
-      // let scriptArr = reactive<ShopScriptModel[]>([]);
+      const mapInfo = {
+        剧本名: 'name',
+        价格: 'price',
+        原价: 'originalPrice',
+      };
 
-      for (let i = 0; i < results.length; i++) {
+      const newarr = results.map((item) => {
+        //定义一个空对象,重新定义数组中的每一项
+        const obj = {};
+        //获取中文键数组
+        const chKeys = Object.keys(mapInfo);
+        //遍历中文键数组
+        chKeys.forEach((key) => {
+          //获取英文键
+          const enKey = mapInfo[key];
+          //重新定义每一项
+          obj[enKey] = item[key];
+        });
+        return obj;
+      });
+      console.log('newarr', newarr);
+
+      for (let i = 0; i < newarr.length; i++) {
         try {
-          // listCond.keyword = results[i].name;
           let form = {
-            name: results[i].name,
+            name: newarr[i].name,
           };
-          console.log(form);
-
           const script = await appAdmin.scriptSearch.find(form);
           console.log('调用接口后的剧本资料', script);
           const dataSource = getDataSource();
           const addRow: EditRecordRow = {
             id: script.items[0].id,
-            name: results[i].name,
-            price: results[i].price || results[i].originalPrice,
-            originalPrice: results[i].originalPrice || results[i].price,
+            name: newarr[i].name,
+            price: newarr[i].price || newarr[i].originalPrice,
+            originalPrice: newarr[i].originalPrice || newarr[i].price,
             key: `${Date.now()}`,
           };
           dataSource.push(addRow);
@@ -203,7 +220,11 @@
     showIndexColumn: true,
     pagination: true,
   });
-
+  function handleTemplate() {
+    window.location.href =
+      'https://buqi-1302622330.cos.ap-beijing.myqcloud.com/%E5%89%A7%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF.xlsx';
+    createMessage.success('模板已下载');
+  }
   function handleAdd(e) {
     console.log(e);
 
