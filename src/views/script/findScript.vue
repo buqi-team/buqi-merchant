@@ -72,11 +72,7 @@
   function onSearch(value: string) {
     keyword.value = value;
   }
-  const listConditionRef = ref({
-    keyword: searchParams.value.keyword,
-    page: 1,
-    pageSize: 10,
-  });
+
   const tableListRef = ref<
     {
       title: string;
@@ -149,11 +145,15 @@
   function loadDataFail(excelDataList: ExcelData[]) {}
 
   var optionsRef: any = ref([]);
+  // const listConditionRef = ref({
+  //   name: searchParams.value.keyword,
+  // });
   async function optionsListApi() {
     optionsRef = [];
-    var listCond = listConditionRef.value;
-    listCond.keyword = searchParams.value.keyword;
-    const res = await appAdmin.scriptSearch.find(searchParams.value.keyword);
+    var listCond = {
+      name: searchParams.value.keyword,
+    };
+    const res = await appAdmin.scriptSearch.find(listCond);
     optionsRef = UiHelper.converter.listToSelectOptions(res.items);
     // console.log(res);
     // console.log(optionsRef);
