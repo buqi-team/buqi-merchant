@@ -2,7 +2,7 @@
   <PageWrapper title="剧本管理" contentBackground>
     <BasicTable ref="tableRef" title="剧本列表" @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" @click="handleAdd">剧本添加</a-button>
+        <!-- <a-button type="primary" @click="handleAdd">剧本添加</a-button> -->
         <a-button type="primary" @click="handleFind">关联剧本</a-button>
         <a-button type="primary" @click="handleMultipleDelete">批量删除</a-button>
       </template>
