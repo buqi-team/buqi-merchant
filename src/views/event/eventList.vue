@@ -2,7 +2,7 @@
   <PageWrapper title="活动管理" contentBackground>
     <BasicTable title="活动列表" @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" @click="handleAdd">活动添加</a-button>
+        <!-- <a-button type="primary" @click="handleAdd">活动添加</a-button> -->
       </template>
       <template #action="{ record }">
         <TableAction

@@ -1,18 +1,18 @@
 <template>
   <PageWrapper title="关联剧本" contentBackground>
-    <!-- <BasicForm @register="register" @submit="handleAdd"> -->
-    <!-- <template #remoteSearch="{ model, field }">
-          <ApiSelect
-            :api="optionsListApi"
-            showSearch
-            :filterOption="false"
-            :params="searchParams"
-            @change="handleAdd"
-            @search="onSearch"
-            :immediate="false"
-          />
-        </template> -->
-    <!-- </BasicForm> -->
+    <BasicForm @register="register" @submit="handleAdd">
+      <template #remoteSearch="{ model, field }">
+        <ApiSelect
+          :api="optionsListApi"
+          showSearch
+          :filterOption="false"
+          :params="searchParams"
+          @change="handleAdd"
+          @search="onSearch"
+          :immediate="false"
+        />
+      </template>
+    </BasicForm>
     <div class="m-4 bg-white" v-if="isImport">
       识别成功{{ successImportTotal }}条, 失败{{ errorArr.length }}条,失败剧本：
       <span v-for="item in errorArr" key="item">{{ item.name }}({{ item.rowNum }}),</span>
@@ -150,15 +150,15 @@
 
   var optionsRef: any = ref([]);
   async function optionsListApi() {
-    optionsRef.value = [];
+    optionsRef = [];
     var listCond = listConditionRef.value;
     listCond.keyword = searchParams.value.keyword;
-    const res = await appAdmin.scriptSearch.list(listCond);
-    optionsRef.value = UiHelper.converter.listToSelectOptions(res.items);
-    console.log(res);
-    console.log(optionsRef.value);
+    const res = await appAdmin.scriptSearch.find(searchParams.value.keyword);
+    optionsRef = UiHelper.converter.listToSelectOptions(res.items);
+    // console.log(res);
+    // console.log(optionsRef);
 
-    return optionsRef.value;
+    return optionsRef;
   }
   const searchScriptSchema: FormSchema[] = [
     {
@@ -226,16 +226,20 @@
     createMessage.success('模板已下载');
   }
   function handleAdd(e) {
-    console.log(e);
+    let name = '';
+    for (let i in optionsRef) {
+      if (e == parseInt(optionsRef[i].value)) {
+        name = optionsRef[i].label;
+        break;
+      }
+    }
 
     const dataSource = getDataSource();
     const addRow: EditRecordRow = {
       id: e,
-      name: optionsRef.value.map((i) => {
-        if (e == parseInt(i.value)) return i.label;
-      }),
-      price: 0,
-      originalPrice: 0,
+      name: name,
+      price: '0',
+      originalPrice: '0',
       key: `${Date.now()}`,
     };
     dataSource.push(addRow);
