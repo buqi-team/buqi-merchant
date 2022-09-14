@@ -72,6 +72,11 @@
   function onSearch(value: string) {
     keyword.value = value;
   }
+  const listConditionRef = ref({
+    keyword: searchParams.value.keyword,
+    pageSize: 100,
+    page: 1,
+  });
 
   const tableListRef = ref<
     {
@@ -145,15 +150,12 @@
   function loadDataFail(excelDataList: ExcelData[]) {}
 
   var optionsRef: any = ref([]);
-  // const listConditionRef = ref({
-  //   name: searchParams.value.keyword,
-  // });
+
   async function optionsListApi() {
     optionsRef = [];
-    var listCond = {
-      name: searchParams.value.keyword,
-    };
-    const res = await appAdmin.scriptSearch.find(listCond);
+    var listCond = listConditionRef.value;
+    listCond.keyword = searchParams.value.keyword;
+    const res = await appAdmin.scriptSearch.get(listCond);
     optionsRef = UiHelper.converter.listToSelectOptions(res.items);
     // console.log(res);
     // console.log(optionsRef);

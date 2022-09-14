@@ -36,18 +36,15 @@ export class ScriptSearchAPI {
   // constructor(axIns) {
   //     this.http = axIns
   // }
-  //   get(id: string, preloads: string[] = []) {
-  //     // let config = preloads ? { params: { preloads } } : null
-  //     return defHttp.get<ScriptModel>({ url: this.resPath + '/' + id, params: { preloads } });
-  //   }
+  // get(id: string, preloads: string[] = []) {
+  //   // let config = preloads ? { params: { preloads } } : null
+  //   return defHttp.get<ScriptModel>({ url: this.resPath + '/' + id, params: { preloads } });
+  // }
   find(req: ScriptImportMatchReq) {
     return defHttp.get<PagedResp<ScriptModel>>({ url: this.resPath + '/findByName', params: req });
   }
-  list(req: ScriptSearchListReq) {
-    return defHttp.get<PagedResp<ScriptModel>>(
-      { url: this.resPath + '/list', params: req },
-      { apiUrl: 'https://buqi.4536251.cn:9991/api/v1' },
-    );
+  get(req: ScriptSearchListReq) {
+    return defHttp.get<PagedResp<ScriptModel>>({ url: this.resPath + '/search', params: req });
   }
 
   //   update(req: ScriptUpdateReq) {
