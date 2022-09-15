@@ -14,6 +14,7 @@ export * from './Room';
 export * from './Merchant';
 export * from './ShopComments';
 export * from './ScriptComments';
+export * from './Password';
 // export * from './MerchantRole';
 // export * from './MerchantUpload';
 export * from './Player';

@@ -17,6 +17,7 @@ import { GameShopPicsAPI } from './GameShopPics';
 import { GameShopScriptAPI } from './GameShopScript';
 import { PlayerAPI } from './Player';
 import { SystemAPI } from './System';
+import { PasswordAPI } from './Password';
 import { MerchantAPI } from './Merchant';
 import { PlayerRoleAPI } from './PlayerRole';
 import { ShopCommentsAPI } from './ShopComments';
@@ -34,6 +35,7 @@ class AppAdminService {
   // shop: ShopAPI
   // game: GameAPI
   script: ScriptAPI;
+  password: PasswordAPI;
   system: SystemAPI;
   room: RoomsAPI;
   merchant: MerchantAPI;
@@ -66,6 +68,7 @@ class AppAdminService {
     // this.http = axIns
     // this.game = new GameAPI(this.http)
     this.order = new OrderAPI();
+    this.password = new PasswordAPI();
     this.script = new ScriptAPI();
     this.system = new SystemAPI();
     this.room = new RoomsAPI();

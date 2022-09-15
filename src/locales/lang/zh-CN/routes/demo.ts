@@ -10,6 +10,7 @@ export default {
     pictures: '图片管理',
     room: '房间管理',
     comment: '评论管理',
+    password: '修改密码',
   },
   charts: {
     baiduMap: '百度地图',

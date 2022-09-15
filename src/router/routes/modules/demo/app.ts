@@ -100,6 +100,14 @@ const dashboard: AppRouteModule = {
         title: t('routes.demo.appAdmin.comment'),
       },
     },
+    {
+      path: 'password',
+      name: 'passwordPage',
+      component: () => import('/@/views/password/index.vue'),
+      meta: {
+        title: t('routes.demo.appAdmin.password'),
+      },
+    },
   ],
 };
 
