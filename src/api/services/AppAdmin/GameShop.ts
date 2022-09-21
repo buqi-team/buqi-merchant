@@ -20,6 +20,8 @@ export interface GameShopModel {
   status: number;
   created_at: string;
   updated_at: string;
+  profit_sharing_openid: string;
+  profit_sharing_name: string;
 }
 export interface GameShopListReq {
   page: int;
@@ -47,6 +49,7 @@ export interface GameShopUpdateReq {
   rating: number;
   opening_hours: string;
   status: number;
+  profit_sharing_name: string;
 }
 export interface GameShopCreateReq {
   name: string;

@@ -226,4 +226,15 @@ export const shopFormSchema: FormSchema[] = [
 
     // required: true,
   },
+  {
+    field: 'profit_sharing_name',
+    label: '收款人姓名',
+    component: 'Input',
+  },
+  {
+    field: 'profit_sharing_openid',
+    label: '收款微信绑定',
+    component: 'Input',
+    slot: 'profitOpenId',
+  },
 ];

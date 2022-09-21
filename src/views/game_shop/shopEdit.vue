@@ -45,6 +45,13 @@
         <a-input v-model:value="model.mapPos" />
         <a-button @click="handleMap">坐标拾取</a-button>
       </template>
+      <template #profitOpenId="{ model, field }">
+        <img
+          style="width: 200px"
+          v-if="model[field] == null"
+          :src="globSetting.apiUrl + '/binding_qrcode?token=' + token"
+        />
+      </template>
     </BasicForm>
     <template #rightFooter>
       <a-button type="primary" @click="customSubmitFunc"> 提交 </a-button>
@@ -52,6 +59,8 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
+  import { useGlobSetting } from '/@/hooks/setting';
+  import { getToken } from '/@/utils/auth';
   import { uploadApi } from '/@/api/sys/upload';
   import { Upload } from 'ant-design-vue';
   import { UploadOutlined } from '@ant-design/icons-vue';
@@ -114,7 +123,10 @@
   const isUpdate = ref(true);
   const rowId = ref('');
 
-  const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
+  const [
+    registerForm,
+    { setFieldsValue, updateSchema, resetFields, validate, removeSchemaByFiled },
+  ] = useForm({
     schemas: shopFormSchema,
     labelWidth: 100,
     showActionButtonGroup: true,
@@ -123,6 +135,10 @@
       span: 24,
     },
   });
+
+  const token = getToken();
+  const globSetting = useGlobSetting();
+
   let data: any = ref(null);
   async function reloadListData() {
     const res = await appAdmin.gameShop.get();
@@ -146,6 +162,8 @@
       support_wechat: res.support_wechat,
       created_at: res.created_at,
       updated_at: res.updated_at,
+      profit_sharing_openid: res.profit_sharing_openid,
+      profit_sharing_name: res.profit_sharing_name,
     };
     console.log('data', data);
     if (data) {
@@ -157,6 +175,8 @@
         map_region: region(data),
         settled_date: data.settled_date.toString(),
       });
+      if (data.profit_sharing_openid != null)
+        removeSchemaByFiled(['profit_sharing_openid', 'profit_sharing_name']);
     }
   }
   onMounted(() => {
@@ -197,6 +217,7 @@
         rating: values.rating,
         opening_hours: values.opening_hours,
         status: data.status,
+        profit_sharing_name: values.profit_sharing_name,
       };
       console.log('form', form);
 

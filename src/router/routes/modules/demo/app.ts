@@ -6,7 +6,7 @@ const dashboard: AppRouteModule = {
   path: '/app',
   name: 'App',
   component: LAYOUT,
-  redirect: '/app/room',
+  redirect: '/app/gameShop',
 
   meta: {
     icon: 'ion:grid-outline',
