@@ -29,23 +29,31 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '最大人数',
-    dataIndex: 'number_max',
+    dataIndex: 'numberMax',
   },
   {
     title: '最小人数',
-    dataIndex: 'number_min',
+    dataIndex: 'numberMin',
+  },
+  {
+    title: '原价',
+    dataIndex: 'originalPrice',
+  },
+  {
+    title: '价格',
+    dataIndex: 'price',
   },
   {
     title: '时长',
-    dataIndex: 'minute_duration',
+    dataIndex: 'minuteDuration',
   },
   {
     title: '封面图',
-    dataIndex: 'cover_url',
+    dataIndex: 'coverUrl',
   },
   {
     title: '作者',
-    dataIndex: 'author_name',
+    dataIndex: 'authorName',
   },
   {
     title: '简介',
@@ -59,7 +67,7 @@ export const columns: BasicColumn[] = [
 
   {
     title: '类型',
-    dataIndex: 'styles_hash',
+    dataIndex: 'styleIds',
   },
   {
     title: '发行时间',
@@ -200,6 +208,21 @@ export const scriptFormSchema: FormSchema[] = [
   {
     field: 'originalPrice',
     label: '原价',
+    component: 'InputNumber',
+    defaultValue: 0,
+    // required: true,
+  },
+];
+export const changePriceSchema: FormSchema[] = [
+  {
+    field: 'scriptId',
+    label: '剧本ID',
+    component: 'Input',
+    // required: true,
+  },
+  {
+    field: 'price',
+    label: '价格',
     component: 'InputNumber',
     defaultValue: 0,
     // required: true,

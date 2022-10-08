@@ -1,14 +1,14 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModalAdd" @ok="handleSubmit" title="添加剧本">
+  <BasicModal v-bind="$attrs" @register="registerModalAdd" @ok="handleSubmit" title="编辑价格">
     <BasicForm @register="registerForm"> </BasicForm>
   </BasicModal>
 </template>
 <script lang="ts" setup>
-  import { ref, computed, unref, defineProps, defineEmits, onMounted } from 'vue';
+  import { ref, computed, unref, defineProps, defineEmits, onMounted, reactive } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { appAdmin, ScriptUpdateReq } from '/@/api/services/AppAdmin';
-  import { scriptFormSchema } from './data';
+  import { changePriceSchema } from './data';
   const emit = defineEmits(['success', 'register']);
 
   const isUpdate = ref(true);
@@ -16,7 +16,7 @@
 
   const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
     labelWidth: 100,
-    schemas: scriptFormSchema,
+    schemas: changePriceSchema,
     showActionButtonGroup: false,
     actionColOptions: {
       span: 26,
@@ -26,7 +26,14 @@
   const [registerModalAdd, { setModalProps, closeModal }] = useModalInner(async (data) => {
     resetFields();
     setModalProps({ confirmLoading: false });
+
     isUpdate.value = !!data?.isUpdate;
+    if (unref(isUpdate)) {
+      setFieldsValue({
+        scriptId: data.record.id,
+        price: data.record.price,
+      });
+    }
   });
 
   const handleSubmit = async () => {
@@ -35,12 +42,9 @@
       setModalProps({ confirmLoading: true });
       // // TODO custom api
       const form: ScriptUpdateReq = {
-        id: rowId.value,
-        price: values.price,
-        originalPrice: values.originalPrice,
+        script_id: values.scriptId,
+        price: parseInt(values.price),
       };
-
-      console.log(form);
       const ret = await appAdmin.script.update(form);
 
       closeModal();

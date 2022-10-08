@@ -15,6 +15,11 @@
               onClick: handleView.bind(null, record),
             },
             {
+              label: '编辑',
+              tooltip: '编辑',
+              onClick: handleEdit.bind(null, record),
+            },
+            {
               label: '删除',
 
               color: 'error',
@@ -30,7 +35,7 @@
     </BasicTable>
     <ScriptModal @register="registerModalView" />
     <ScriptAdd @register="registerModalAdd" @success="handleSuccess"> </ScriptAdd>
-    <!-- <ScriptEdit @register="registerModalEdit" @success="handleSuccess"></ScriptEdit> -->
+    <ScriptEdit @register="registerModalEdit" @success="handleSuccess"></ScriptEdit>
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -59,20 +64,26 @@
     keyword: '',
   });
   const data = reactive<ScriptModel[]>([]);
-
+  const shopId = ref('');
   const reloadListData = async (e) => {
     var listCond = listConditionRef.value;
     listCond.page = e.page;
     listCond.pageSize = e.pageSize;
     data.length = 0;
     const res = await appAdmin.script.list(listCond);
+    const ret = await appAdmin.gameShop.get();
+    console.log(res);
 
+    shopId.value = ret.id;
     for (let i = 0; i < res.items.length; i++) {
       data.push({
         id: res.items[i].id,
         name: res.items[i].name,
         numberMax: res.items[i].number_max,
         numberMin: res.items[i].number_min,
+        price: res.items[i].app_merchant_product.filter((i) => i.shop_id == shopId.value)[0].price,
+        originalPrice: res.items[i].app_merchant_product.filter((i) => i.shop_id == shopId.value)[0]
+          .original_price,
         minuteDuration: res.items[i].minute_duration,
         coverUrl: res.items[i].cover_url,
         authorName: res.items[i].author_name,
@@ -82,16 +93,18 @@
         detail: res.items[i].detail,
         styleIds: res.items[i].styles_hash,
         styles: res.items[i].styles,
-        createdAt: res.items[i].createdAt,
-        updatedAt: res.items[i].updatedAt,
+        createdAt: res.items[i].created_at,
+        updatedAt: res.items[i].updated_at,
       });
     }
+    console.log(data);
+
     listConditionRef.value = {
       keyword: listCond.keyword,
       page: res.page,
       pageSize: res.pageSize,
     };
-    return res;
+    return data;
   };
 
   function handleFind() {

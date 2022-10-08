@@ -9,6 +9,8 @@ export interface ScriptModel {
   numberMax: number;
   numberMin: number;
   minuteDuration: number;
+  price: number;
+  originalPrice: number;
   coverUrl: string;
   authorName: string;
   publishDate: string;
@@ -29,9 +31,8 @@ export interface ScriptListReq {
   // status?: number;
 }
 export interface ScriptUpdateReq {
-  id: string;
+  script_id: string;
   price: number;
-  originalPrice: number;
 }
 export interface ScriptCreateReq {
   scriptId: string;
@@ -55,7 +56,7 @@ export class ScriptAPI {
     return defHttp.get({ url: this.resPath, params: req });
   }
   update(req: ScriptUpdateReq) {
-    return defHttp.put({ url: this.resPath + '/' + req.id, params: req });
+    return defHttp.put({ url: this.resPath + '/change_price', params: req });
   }
   delete(req: string[]) {
     return defHttp.delete({ url: this.resPath, params: req });
