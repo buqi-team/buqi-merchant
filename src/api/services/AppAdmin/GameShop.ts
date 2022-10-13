@@ -69,6 +69,9 @@ export interface GameShopCreateReq {
   supportPhone: string;
   status: number;
 }
+export interface ShopCheckInReq {
+  qrcode: string;
+}
 export class GameShopAPI {
   // http: AxiosInstance;
   resPath = '/shop';
@@ -96,5 +99,8 @@ export class GameShopAPI {
   }
   disable(id: string) {
     return defHttp.put({ url: this.resPath + '/' + id, params: { status: 0 } });
+  }
+  checkIn(req: ShopCheckInReq) {
+    return defHttp.post({ url: this.resPath + '/checkin', params: req });
   }
 }
