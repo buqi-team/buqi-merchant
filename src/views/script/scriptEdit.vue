@@ -26,7 +26,7 @@
   const [registerModalAdd, { setModalProps, closeModal }] = useModalInner(async (data) => {
     resetFields();
     setModalProps({ confirmLoading: false });
-
+    rowId.value = data.record.id;
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       setFieldsValue({
@@ -42,7 +42,7 @@
       setModalProps({ confirmLoading: true });
       // // TODO custom api
       const form: ScriptUpdateReq = {
-        script_id: values.scriptId,
+        script_id: rowId.value,
         price: parseInt(values.price),
       };
       const ret = await appAdmin.script.update(form);

@@ -214,12 +214,12 @@ export const scriptFormSchema: FormSchema[] = [
   },
 ];
 export const changePriceSchema: FormSchema[] = [
-  {
-    field: 'scriptId',
-    label: '剧本ID',
-    component: 'Input',
-    // required: true,
-  },
+  // {
+  //   field: 'scriptId',
+  //   label: '剧本ID',
+  //   component: 'Input',
+  //   // required: true,
+  // },
   {
     field: 'price',
     label: '价格',

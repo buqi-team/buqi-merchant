@@ -43,22 +43,22 @@
   });
 
   async function onDecode(data) {
-    console.log(data);
-
     state.result = data;
     let form = {
       qrcode: state.result,
     };
-
-    createMessage.success('扫描成功');
-    const res = await appAdmin.gameShop.checkIn(form);
-    if (res) {
-      createMessage.success('签到成功');
-      setTimeout(() => {
-        state.stream = false;
-        state.result = '';
-      }, 600);
-    }
+    try {
+      const res = await appAdmin.gameShop.checkIn(form);
+      if (res == '成功') {
+        createMessage.success(res);
+        setTimeout(() => {
+          state.stream = false;
+          state.result = '';
+        }, 600);
+      } else {
+        createMessage.error(res);
+      }
+    } catch {}
   }
 </script>
 <style lang="less">
