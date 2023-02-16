@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="剧本管理" contentBackground>
+  <PageWrapper contentBackground>
     <BasicTable ref="tableRef" title="剧本列表" @register="registerTable">
       <template #toolbar>
         <!-- <a-button type="primary" @click="handleAdd">剧本添加</a-button> -->
@@ -166,7 +166,7 @@
     columns: columns,
     api: reloadListData,
     dataSource: data,
-    showIndexColumn: true,
+    showIndexColumn: false,
     useSearchForm: false,
     rowSelection: { type: 'checkbox' },
     bordered: true,

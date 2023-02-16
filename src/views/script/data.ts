@@ -8,6 +8,8 @@ import { Tinymce } from '/@/components/Tinymce/index';
 export const columns: BasicColumn[] = [
   {
     title: '状态',
+    width: 80,
+
     dataIndex: 'status',
     customRender: ({ record }) => {
       // const status = record.status;
@@ -20,31 +22,42 @@ export const columns: BasicColumn[] = [
   },
   {
     title: 'ID',
+    width: 80,
+
     dataIndex: 'id',
   },
   {
     title: '名称',
     dataIndex: 'name',
+    width: 80,
+
     ellipsis: true,
   },
   {
     title: '最大人数',
     dataIndex: 'numberMax',
+    width: 80,
   },
   {
     title: '最小人数',
+    width: 80,
+
     dataIndex: 'numberMin',
   },
   {
     title: '原价',
     dataIndex: 'originalPrice',
+    width: 80,
   },
   {
     title: '价格',
     dataIndex: 'price',
+    width: 80,
   },
   {
     title: '时长',
+    width: 80,
+
     dataIndex: 'minuteDuration',
   },
   {
@@ -54,15 +67,7 @@ export const columns: BasicColumn[] = [
   {
     title: '作者',
     dataIndex: 'authorName',
-  },
-  {
-    title: '简介',
-    dataIndex: 'description',
-    ellipsis: true,
-  },
-  {
-    title: '详情',
-    dataIndex: 'detail',
+    width: 100,
   },
 
   {

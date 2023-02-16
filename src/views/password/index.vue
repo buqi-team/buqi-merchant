@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="商户密码修改" content="">
+  <PageWrapper content="">
     <div class="py-8 bg-white flex flex-col justify-center items-center">
       <BasicForm @register="register" />
       <div class="flex justify-center">

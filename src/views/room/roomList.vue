@@ -1,6 +1,6 @@
 <template>
-  <PageWrapper title="店铺房间管理" contentBackground>
-    <BasicTable ref="tableRef" title="店铺列表" @register="registerTable" :searchInfo="searchInfo">
+  <PageWrapper contentBackground>
+    <BasicTable ref="tableRef" title="房间列表" @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleAdd">房间添加</a-button>
         <a-button type="primary" @click="handleDelete">批量删除</a-button>

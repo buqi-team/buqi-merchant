@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="店铺图片管理" contentBackground>
+  <PageWrapper contentBackground>
     <CardList :api="reloadListData" @get-method="getMethod" @delete="handleDel">
       <template #header>
         <Button @click="handleAdd" type="primary"> 添加店铺图片 </Button>

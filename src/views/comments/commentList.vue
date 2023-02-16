@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="评论管理" contentBackground>
+  <PageWrapper contentBackground>
     <BasicTable ref="tableRef" title="评论列表" @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleDelete">批量删除</a-button>

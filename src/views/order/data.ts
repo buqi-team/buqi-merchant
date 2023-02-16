@@ -30,30 +30,33 @@ export const columns: BasicColumn[] = [
   {
     title: 'ID',
     dataIndex: 'id',
+    width: 80,
   },
   {
     title: '组队名',
     dataIndex: 'event.group_name',
+    width: 120,
   },
   {
     title: '活动标题',
     dataIndex: 'event.title',
+    width: 120,
   },
-  {
-    title: '活动描述',
-    dataIndex: 'event.content',
-  },
+
   {
     title: '发起人显示名',
     dataIndex: 'player.screen_name',
+    width: 120,
   },
   {
     title: '发起人用户名',
     dataIndex: 'player.username',
+    width: 120,
   },
   {
     title: '发起人用户id',
     dataIndex: 'player.id',
+    width: 120,
   },
   {
     title: '付款日期',

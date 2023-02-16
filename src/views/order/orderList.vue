@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="订单管理" contentBackground>
+  <PageWrapper contentBackground>
     <BasicTable title="订单列表" @register="registerTable">
       <template #toolbar>
         <!-- <a-button type="primary" @click="handleAdd">订单添加</a-button> -->
@@ -144,7 +144,7 @@
     columns: columns,
     api: reloadListData,
     dataSource: data,
-    showIndexColumn: true,
+    showIndexColumn: false,
     useSearchForm: true,
     rowSelection: { type: 'checkbox' },
     bordered: true,

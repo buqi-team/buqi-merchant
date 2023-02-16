@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="店铺信息">
+  <PageWrapper>
     <a-button type="primary" @click="toEdit()">编辑店铺信息</a-button>
     <Description :column="3" class="mt-4" title="店铺" :data="dataSource" :schema="schema" />
 

@@ -9,6 +9,7 @@ export const columns: BasicColumn[] = [
   {
     title: '状态',
     dataIndex: 'status',
+    width: 80,
 
     customRender: ({ record }) => {
       let enable = false;
@@ -32,19 +33,17 @@ export const columns: BasicColumn[] = [
   {
     title: 'ID',
     dataIndex: 'id',
+    width: 80,
   },
   {
     title: '发起用户ID',
     dataIndex: 'owner_id',
-    width: 120,
+    width: 100,
   },
   {
     title: '标题（可留空）',
     dataIndex: 'title',
-  },
-  {
-    title: '内容',
-    dataIndex: 'content',
+    width: 100,
   },
   {
     title: '图片',
@@ -53,18 +52,22 @@ export const columns: BasicColumn[] = [
   {
     title: '所需总人数',
     dataIndex: 'num_member_total',
+    width: 100,
   },
   {
     title: '已报名人数',
     dataIndex: 'num_member_joined',
+    width: 100,
   },
   {
     title: '关联的商品ID',
     dataIndex: 'product_id',
+    width: 100,
   },
   {
     title: '关联的剧本',
     dataIndex: 'script.name',
+    width: 100,
   },
   {
     title: '创建时间',

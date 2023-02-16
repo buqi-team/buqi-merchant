@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="活动管理" contentBackground>
+  <PageWrapper contentBackground>
     <BasicTable title="活动列表" @register="registerTable">
       <template #toolbar>
         <!-- <a-button type="primary" @click="handleAdd">活动添加</a-button> -->
@@ -140,7 +140,7 @@
     columns: columns,
     api: reloadListData,
     dataSource: data,
-    showIndexColumn: true,
+    showIndexColumn: false,
     useSearchForm: true,
     rowSelection: { type: 'checkbox' },
     bordered: true,
